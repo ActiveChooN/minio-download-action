@@ -1,0 +1,43 @@
+name: 'Minio download'
+description: 'Download a file from S3 with Minio CLI'
+author: 'ActiveChooN'
+inputs:
+  endpoint:
+    description: 'Endpoint of object storage host'
+    required: true
+  access_key:
+    description: 'Access key'
+    required: true
+  secret_key:
+    description: 'Secret key'
+    required: true
+  remote_path:
+    description: 'Remote path'
+    required: true
+  local_path:
+    description: 'Local path'
+    required: true
+  bucket:
+    description: 'Bucket name'
+  api_version:
+    description: 'API version'
+    default: 'S3v4'
+  args:
+    description: 'Additional args passed to mc command'
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    ENDPOINT: ${{ inputs.endpoint }}
+    ACCESS_KEY: ${{ inputs.access_key }}
+    SECRET_KEY: ${{ inputs.secret_key }}
+    API: ${{ inputs.api }}
+    ARGS: ${{ inputs.args }}
+    BUCKET: ${{ inputs.bucket }}
+  args:
+    - ${{ inputs.remote_path }}
+    - ${{ inputs.local_path }}
+branding:
+  icon: 'download-cloud'
+  color: 'green'
